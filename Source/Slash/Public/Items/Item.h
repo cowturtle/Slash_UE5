@@ -20,10 +20,10 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Sine Parameters")
-	float Amplitude = 0.25f;
+	float Amplitude = 1.0f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Sine Parameters")
-	float TimeConstant = 15.f;
+	float TimeConstant = 7.5f;
 
 	UFUNCTION(BlueprintPure)
 	float TransformedSin();
@@ -35,7 +35,10 @@ protected:
 	T Avg(T First, T Second);
 
 	UFUNCTION()
-	void onSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	void OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+	UFUNCTION()
+	void OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 	float RunningTime;
