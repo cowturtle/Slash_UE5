@@ -60,7 +60,5 @@ void AItem::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	RunningTime += DeltaTime;
-	
-	AddActorWorldOffset(FVector(0.f, 0.f, this->TransformedSin()));
 }
 
