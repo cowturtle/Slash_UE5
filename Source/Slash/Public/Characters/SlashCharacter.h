@@ -10,6 +10,7 @@ class UInputMappingContext;
 class UInputAction;
 class USpringArmComponent;
 class UCameraComponent;
+class AItem;
 
 
 UCLASS()
@@ -19,6 +20,10 @@ class SLASH_API ASlashCharacter : public ACharacter
 
 public:
 	ASlashCharacter();
+
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	inline void SetOverlappingItem(AItem* Item) { OverlappingItem = Item; }
 
 protected:
 	virtual void BeginPlay() override;
@@ -36,16 +41,19 @@ protected:
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction* JumpAction;
 
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* PickUpAction;
+
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* CameraBoom;
 
 	UPROPERTY(VisibleAnywhere)
 	UCameraComponent* ViewCamera;
 
+	UPROPERTY(VisibleInstanceOnly)
+	AItem* OverlappingItem;
+
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
-
-public:	
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	void PickUp();
 };
