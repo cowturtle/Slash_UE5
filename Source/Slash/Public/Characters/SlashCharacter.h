@@ -34,6 +34,7 @@ protected:
 
 
 	ECharacterState CharacterState = ECharacterState::ECS_Unequipped;
+	EActionState ActionState = EActionState::EAS_Unoccupied;
 
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputMappingContext* SlashMappingContext;
@@ -62,10 +63,15 @@ protected:
 	UPROPERTY(VisibleInstanceOnly)
 	AItem* OverlappingItem;
 
+	/* Callbacks for Inputs */
+
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
 	void Attack();
 	void PickUp();
+
+	/* Play Montage Functions */
+	void PlayAttackMontage();
 
 private:
 	/* Animation Montages */

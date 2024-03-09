@@ -72,6 +72,25 @@ void ASlashCharacter::Look(const FInputActionValue& Value)
 
 void ASlashCharacter::Attack()
 {
+	if (ActionState == EActionState::EAS_Unoccupied)
+	{
+		PlayAttackMontage();
+		ActionState = EActionState::EAS_Attacking;
+	}
+}
+
+void ASlashCharacter::PickUp()
+{
+	AWeapon* OverlappingWeapon = Cast<AWeapon>(OverlappingItem);
+	if (OverlappingWeapon)
+	{
+		OverlappingWeapon->Equip(GetMesh(), FName("LeftHandSocket"));
+		CharacterState = ECharacterState::ECS_EquippedOneHandedWeapon;
+	}
+}
+
+void ASlashCharacter::PlayAttackMontage()
+{
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
 	if (AnimInstance && AttackMontage)
 	{
@@ -91,16 +110,6 @@ void ASlashCharacter::Attack()
 			break;
 		}
 		AnimInstance->Montage_JumpToSection(SectionName, AttackMontage);
-	}
-}
-
-void ASlashCharacter::PickUp()
-{
-	AWeapon* OverlappingWeapon = Cast<AWeapon>(OverlappingItem);
-	if (OverlappingWeapon)
-	{
-		OverlappingWeapon->Equip(GetMesh(), FName("LeftHandSocket"));
-		CharacterState = ECharacterState::ECS_EquippedOneHandedWeapon;
 	}
 }
 
