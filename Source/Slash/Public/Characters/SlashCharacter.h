@@ -76,6 +76,15 @@ protected:
 	void Attack();
 	void PickUp();
 
+	UFUNCTION(BlueprintCallable)
+	void Disarm();
+
+	UFUNCTION(BlueprintCallable)
+	void Arm();
+
+	UFUNCTION(BlueprintCallable)
+	void FinishedEquipping();
+
 	/* Play Montage Functions */
 	void PlayEquipMontage(FName SectionName);
 	void PlayAttackMontage();

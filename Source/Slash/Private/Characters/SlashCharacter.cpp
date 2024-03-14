@@ -51,7 +51,7 @@ void ASlashCharacter::Tick(float DeltaTime)
 
 void ASlashCharacter::Move(const FInputActionValue& Value)
 {
-	if (ActionState == EActionState::EAS_Attacking) return;
+	if (ActionState != EActionState::EAS_Unoccupied) return;
 
 	const FVector2D MovementVector = Value.Get<FVector2D>();
 	
@@ -91,7 +91,7 @@ bool ASlashCharacter::CanArm()
 {
 	return ActionState == EActionState::EAS_Unoccupied &&
 		CharacterState == ECharacterState::ECS_Unequipped &&
-		EquippedWeapon != nullptr;
+		EquippedWeapon;
 }
 
 bool ASlashCharacter::CanDisarm()
@@ -116,13 +116,36 @@ void ASlashCharacter::PickUp()
 		{
 			PlayEquipMontage(FName("Unequip"));
 			CharacterState = ECharacterState::ECS_Unequipped;
+			ActionState = EActionState::EAS_EquippingWeapon;
 		}
 		else if (CanArm())
 		{
 			PlayEquipMontage(FName("Equip"));
 			CharacterState = ECharacterState::ECS_EquippedOneHandedWeapon;
+			ActionState = EActionState::EAS_EquippingWeapon;
 		}
 	}
+}
+
+void ASlashCharacter::Disarm()
+{
+	if (EquippedWeapon)
+	{
+		EquippedWeapon->AttachMeshToSocket(GetMesh(), FName("SpineSocket"));
+	}
+}
+
+void ASlashCharacter::Arm()
+{
+	if (EquippedWeapon)
+	{
+		EquippedWeapon->AttachMeshToSocket(GetMesh(), FName("LeftHandSocket"));
+	}
+}
+
+void ASlashCharacter::FinishedEquipping()
+{
+	ActionState = EActionState::EAS_Unoccupied;
 }
 
 void ASlashCharacter::PlayEquipMontage(FName SectionName)
@@ -131,7 +154,7 @@ void ASlashCharacter::PlayEquipMontage(FName SectionName)
 	if (AnimInstance && EquipMontage)
 	{
 		AnimInstance->Montage_Play(EquipMontage);
-		AnimInstance->Montage_SetPlayRate(EquipMontage, 1.5f);
+		//AnimInstance->Montage_SetPlayRate(EquipMontage, 1.5f);
 		AnimInstance->Montage_JumpToSection(SectionName, EquipMontage);
 	}
 }
