@@ -13,6 +13,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class AItem;
 class UAnimMontage;
+class AWeapon;
 
 
 UCLASS()
@@ -65,6 +66,9 @@ protected:
 	UPROPERTY(VisibleInstanceOnly)
 	AItem* OverlappingItem;
 
+	UPROPERTY(VisibleAnywhere, category = Weapon)
+	AWeapon* EquippedWeapon;
+
 	/* Callbacks for Inputs */
 
 	void Move(const FInputActionValue& Value);
@@ -73,14 +77,21 @@ protected:
 	void PickUp();
 
 	/* Play Montage Functions */
+	void PlayEquipMontage(FName SectionName);
 	void PlayAttackMontage();
 
 	UFUNCTION(BlueprintCallable)
 	void AttackEnd();
 	bool CanAttack();
+	
+	bool CanArm();
+	bool CanDisarm();
 
 private:
 	/* Animation Montages */
 	UPROPERTY(EditDefaultsOnly, Category = Montages)
 	UAnimMontage* AttackMontage;
+
+	UPROPERTY(EditDefaultsOnly, Category = Montages)
+	UAnimMontage* EquipMontage;
 };

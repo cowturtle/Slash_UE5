@@ -83,7 +83,21 @@ void ASlashCharacter::Attack()
 
 bool ASlashCharacter::CanAttack()
 {
-	return ActionState == EActionState::EAS_Unoccupied && CharacterState != ECharacterState::ECS_Unequipped;
+	return ActionState == EActionState::EAS_Unoccupied && 
+		CharacterState != ECharacterState::ECS_Unequipped;
+}
+
+bool ASlashCharacter::CanArm()
+{
+	return ActionState == EActionState::EAS_Unoccupied &&
+		CharacterState == ECharacterState::ECS_Unequipped &&
+		EquippedWeapon != nullptr;
+}
+
+bool ASlashCharacter::CanDisarm()
+{
+	return ActionState == EActionState::EAS_Unoccupied && 
+		CharacterState != ECharacterState::ECS_Unequipped;
 }
 
 void ASlashCharacter::PickUp()
@@ -93,6 +107,32 @@ void ASlashCharacter::PickUp()
 	{
 		OverlappingWeapon->Equip(GetMesh(), FName("LeftHandSocket"));
 		CharacterState = ECharacterState::ECS_EquippedOneHandedWeapon;
+		OverlappingItem = nullptr;
+		EquippedWeapon = OverlappingWeapon;
+	}
+	else
+	{
+		if (CanDisarm())
+		{
+			PlayEquipMontage(FName("Unequip"));
+			CharacterState = ECharacterState::ECS_Unequipped;
+		}
+		if (CanArm())
+		{
+			PlayEquipMontage(FName("Equip"));
+			CharacterState = ECharacterState::ECS_EquippedOneHandedWeapon;
+		}
+	}
+}
+
+void ASlashCharacter::PlayEquipMontage(FName SectionName)
+{
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance && EquipMontage)
+	{
+		AnimInstance->Montage_Play(EquipMontage);
+		AnimInstance->Montage_SetPlayRate(EquipMontage, 1.5f);
+		AnimInstance->Montage_JumpToSection(SectionName, EquipMontage);
 	}
 }
 
