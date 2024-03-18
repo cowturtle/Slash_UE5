@@ -26,6 +26,9 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION(BlueprintCallable)
+	void SetWeaponCollisionEnabled(ECollisionEnabled::Type CollisionEnabled);
+
 	inline void SetOverlappingItem(AItem* Item) { OverlappingItem = Item; }
 	inline ECharacterState GetCharacterState() { return CharacterState; }
 
