@@ -52,6 +52,11 @@ void AEnemy::GetHit(const FVector& ImpactPoint)
 {
 	DRAW_SPHERE_COLOR(ImpactPoint, FColor::Orange);
 
+	DirectionalHitReact(ImpactPoint);
+}
+
+void AEnemy::DirectionalHitReact(const FVector& ImpactPoint)
+{
 	const FVector Forward = GetActorForwardVector();
 	// Lower Impact Poiont to the Enemy's Actor Location Z
 	const FVector ImpactLowered(ImpactPoint.X, ImpactPoint.Y, GetActorLocation().Z);
@@ -79,7 +84,7 @@ void AEnemy::GetHit(const FVector& ImpactPoint)
 	if (Theta >= -45.f && Theta < 45.f)
 	{
 		Section = FName("FromFront");
-	} 
+	}
 	else if (Theta >= -135.f && Theta < -45.f)
 	{
 		Section = FName("FromLeft");
