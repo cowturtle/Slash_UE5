@@ -8,6 +8,7 @@
 
 class UAnimMontage;
 class USoundBase;
+class UParticleSystem;
 
 UCLASS()
 class SLASH_API AEnemy : public ACharacter, public IHitInterface
@@ -33,4 +34,7 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = Sounds)
 	USoundBase* HitSound;
+
+	UPROPERTY(EditAnywhere, Category = VisualEffects)
+	UParticleSystem* HitParticles;
 };
