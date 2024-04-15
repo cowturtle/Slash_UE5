@@ -40,7 +40,10 @@ float AItem::TransformedCos()
 
 void AItem::OnSphereOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
+<<<<<<< HEAD
+=======
 	const FString OtherActorName = OtherActor->GetName();
+>>>>>>> fe22d5963a8e4db49efc72deb430d6cea772edeb
 	ASlashCharacter* SlashCharacter = Cast<ASlashCharacter>(OtherActor);
 	if (SlashCharacter)
 	{
