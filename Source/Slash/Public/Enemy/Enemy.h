@@ -9,6 +9,7 @@
 class UAnimMontage;
 class USoundBase;
 class UParticleSystem;
+class UAttributeComponent;
 
 UCLASS()
 class SLASH_API AEnemy : public ACharacter, public IHitInterface
@@ -29,6 +30,10 @@ protected:
 
 	void PlayHitReactMontage(const FName& SectionName);
 private:
+
+	UPROPERTY(VisibleAnywhere)
+	UAttributeComponent* Attributes;
+
 	UPROPERTY(EditDefaultsOnly, Category = Montages)
 	UAnimMontage* HitReactMontage;
 	
