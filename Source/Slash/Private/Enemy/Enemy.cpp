@@ -33,6 +33,43 @@ void AEnemy::BeginPlay()
 	
 }
 
+void AEnemy::Die()
+{
+	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
+	if (AnimInstance && DeathMontage)
+	{
+		AnimInstance->Montage_Play(DeathMontage);
+
+		int32 Selection = FMath::RandRange(0, 5);
+		FName SectionName = FName();
+		switch (Selection)
+		{
+		case 0:
+			SectionName = FName("Death1");
+			break;
+		case 1:
+			SectionName = FName("Death2");
+			break;
+		case 2:
+			SectionName = FName("Death3");
+			break;
+		case 3:
+			SectionName = FName("Death4");
+			break;
+		case 4:
+			SectionName = FName("Death5");
+			break;
+		case 5:
+			SectionName = FName("Death6");
+			break;
+		default:
+			break;
+		}
+
+		AnimInstance->Montage_JumpToSection(SectionName, DeathMontage);
+	}
+}
+
 void AEnemy::PlayHitReactMontage(const FName& SectionName)
 {
 	UAnimInstance* AnimInstance = GetMesh()->GetAnimInstance();
@@ -60,23 +97,30 @@ void AEnemy::GetHit_Implementation(const FVector& ImpactPoint)
 {
 	//DRAW_SPHERE_COLOR(ImpactPoint, FColor::Orange);
 
-	DirectionalHitReact(ImpactPoint);
+	if (Attributes && Attributes->IsAlive())
+	{
+		DirectionalHitReact(ImpactPoint);
 
-	if (HitSound)
+		if (HitSound)
+		{
+			UGameplayStatics::PlaySoundAtLocation(
+				this,
+				HitSound,
+				ImpactPoint
+			);
+		}
+		if (HitParticles && GetWorld())
+		{
+			UGameplayStatics::SpawnEmitterAtLocation(
+				GetWorld(),
+				HitParticles,
+				ImpactPoint
+			);
+		}
+	} 
+	else
 	{
-		UGameplayStatics::PlaySoundAtLocation(
-			this,
-			HitSound,
-			ImpactPoint
-		);
-	}
-	if (HitParticles && GetWorld())
-	{
-		UGameplayStatics::SpawnEmitterAtLocation(
-			GetWorld(),
-			HitParticles,
-			ImpactPoint
-		);
+		Die();
 	}
 }
 
