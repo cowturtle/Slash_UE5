@@ -40,27 +40,25 @@ void AEnemy::Die()
 	{
 		AnimInstance->Montage_Play(DeathMontage);
 
-		int32 Selection = FMath::RandRange(0, 5);
+		int32 Selection = FMath::RandRange(0, 3);
 		FName SectionName = FName();
 		switch (Selection)
 		{
 		case 0:
 			SectionName = FName("Death1");
+			DeathPose = EDeathPose::EDP_Death1;
 			break;
 		case 1:
 			SectionName = FName("Death2");
+			DeathPose = EDeathPose::EDP_Death2;
 			break;
 		case 2:
 			SectionName = FName("Death3");
+			DeathPose = EDeathPose::EDP_Death3;
 			break;
 		case 3:
 			SectionName = FName("Death4");
-			break;
-		case 4:
-			SectionName = FName("Death5");
-			break;
-		case 5:
-			SectionName = FName("Death6");
+			DeathPose = EDeathPose::EDP_Death4;
 			break;
 		default:
 			break;
@@ -100,27 +98,27 @@ void AEnemy::GetHit_Implementation(const FVector& ImpactPoint)
 	if (Attributes && Attributes->IsAlive())
 	{
 		DirectionalHitReact(ImpactPoint);
-
-		if (HitSound)
-		{
-			UGameplayStatics::PlaySoundAtLocation(
-				this,
-				HitSound,
-				ImpactPoint
-			);
-		}
-		if (HitParticles && GetWorld())
-		{
-			UGameplayStatics::SpawnEmitterAtLocation(
-				GetWorld(),
-				HitParticles,
-				ImpactPoint
-			);
-		}
 	} 
 	else
 	{
 		Die();
+	}
+
+	if (HitSound)
+	{
+		UGameplayStatics::PlaySoundAtLocation(
+			this,
+			HitSound,
+			ImpactPoint
+		);
+	}
+	if (HitParticles && GetWorld())
+	{
+		UGameplayStatics::SpawnEmitterAtLocation(
+			GetWorld(),
+			HitParticles,
+			ImpactPoint
+		);
 	}
 }
 
