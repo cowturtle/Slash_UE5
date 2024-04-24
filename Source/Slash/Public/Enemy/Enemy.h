@@ -32,6 +32,8 @@ protected:
 
 	void Die();
 	bool InTargetRange(AActor* Target, double Radius);
+	void MoveToTarget(AActor* Target);
+	AActor* ChoosePatrolTarget();
 
 	void PlayHitReactMontage(const FName& SectionName);
 
@@ -78,4 +80,17 @@ private:
 
 	UPROPERTY(EditAnywhere)
 	double PatrolRadius = 200.f;
+
+	FTimerHandle PatrolTimer;
+	void PatrolTimerFinished();
+
+	UPROPERTY(EditAnywhere, category = "AI Navigation")
+	float WaitMin = 5.f;
+
+	UPROPERTY(EditAnywhere, category = "AI Navigation")
+	float WaitMax = 10.f;
+
+	void CheckCombatTarget();
+
+	void CheckPatrolTarget();
 };
