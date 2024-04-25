@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "BaseCharacter.h"
 #include "InputActionValue.h"
 #include "CharacterTypes.h"
 #include "SlashCharacter.generated.h"
@@ -13,11 +13,10 @@ class USpringArmComponent;
 class UCameraComponent;
 class AItem;
 class UAnimMontage;
-class AWeapon;
 
 
 UCLASS()
-class SLASH_API ASlashCharacter : public ACharacter
+class SLASH_API ASlashCharacter : public ABaseCharacter
 {
 	GENERATED_BODY()
 
@@ -25,9 +24,6 @@ public:
 	ASlashCharacter();
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	UFUNCTION(BlueprintCallable)
-	void SetWeaponCollisionEnabled(ECollisionEnabled::Type CollisionEnabled);
 
 	inline void SetOverlappingItem(AItem* Item) { OverlappingItem = Item; }
 	inline ECharacterState GetCharacterState() { return CharacterState; }
@@ -69,14 +65,11 @@ protected:
 	UPROPERTY(VisibleInstanceOnly)
 	AItem* OverlappingItem;
 
-	UPROPERTY(VisibleAnywhere, category = Weapon)
-	AWeapon* EquippedWeapon;
-
 	/* Callbacks for Inputs */
 
 	void Move(const FInputActionValue& Value);
 	void Look(const FInputActionValue& Value);
-	void Attack();
+	virtual void Attack() override;
 	void PickUp();
 
 	UFUNCTION(BlueprintCallable)
@@ -90,20 +83,15 @@ protected:
 
 	/* Play Montage Functions */
 	void PlayEquipMontage(FName SectionName);
-	void PlayAttackMontage();
-
-	UFUNCTION(BlueprintCallable)
-	void AttackEnd();
-	bool CanAttack();
+	virtual void PlayAttackMontage() override;
+	virtual void AttackEnd() override;
+	virtual bool CanAttack() override;
 	
 	bool CanArm();
 	bool CanDisarm();
 
 private:
-	/* Animation Montages */
-	UPROPERTY(EditDefaultsOnly, Category = Montages)
-	UAnimMontage* AttackMontage;
-
+	
 	UPROPERTY(EditDefaultsOnly, Category = Montages)
 	UAnimMontage* EquipMontage;
 };
