@@ -12,6 +12,8 @@ class USoundBase;
 class UParticleSystem;
 class UAttributeComponent;
 class UHealthBarComponent;
+class UPawnSensingComponent;
+
 
 UCLASS()
 class SLASH_API AEnemy : public ACharacter, public IHitInterface
@@ -35,11 +37,18 @@ protected:
 	void MoveToTarget(AActor* Target);
 	AActor* ChoosePatrolTarget();
 
+	UFUNCTION()
+	void PawnSeen(APawn* SeenPawn);
+
 	void PlayHitReactMontage(const FName& SectionName);
 
 	UPROPERTY(BlueprintReadOnly)
 	EDeathPose DeathPose = EDeathPose::EDP_Alive;
 private:
+
+	/*
+	* Components
+	*/
 
 	UPROPERTY(VisibleAnywhere)
 	UAttributeComponent* Attributes;
@@ -47,6 +56,12 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UHealthBarComponent* HealthBarWidget;
 
+	UPROPERTY(VisibleAnywhere)
+	UPawnSensingComponent* PawnSensing;
+
+	/*
+	* Animation Montages
+	*/
 	UPROPERTY(EditDefaultsOnly, Category = Montages)
 	UAnimMontage* HitReactMontage;
 
