@@ -113,7 +113,7 @@ void AEnemy::MoveToTarget(AActor* Target)
 	if (EnemyController == nullptr || Target == nullptr) return;
 	
 	FAIMoveRequest MoveRequest;
-	MoveRequest.SetGoalActor(PatrolTarget);
+	MoveRequest.SetGoalActor(Target);
 	MoveRequest.SetAcceptanceRadius(15.f);
 	EnemyController->MoveTo(MoveRequest);
 }
@@ -148,6 +148,7 @@ void AEnemy::PawnSeen(APawn* SeenPawn)
 		GetWorldTimerManager().ClearTimer(PatrolTimer);
 		GetCharacterMovement()->MaxWalkSpeed = 300.f;
 		CombatTarget = SeenPawn;
+		MoveToTarget(CombatTarget);
 	}
 }
 
@@ -190,6 +191,9 @@ void AEnemy::CheckCombatTarget()
 		{
 			HealthBarWidget->SetVisibility(false);
 		}
+		EnemyState = EEnemyState::EES_Patrolling;
+		GetCharacterMovement()->MaxWalkSpeed = 125.f;
+		MoveToTarget(PatrolTarget);
 	}
 }
 
