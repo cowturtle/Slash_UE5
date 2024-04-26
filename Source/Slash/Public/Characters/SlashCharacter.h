@@ -83,7 +83,6 @@ protected:
 
 	/* Play Montage Functions */
 	void PlayEquipMontage(FName SectionName);
-	virtual void PlayAttackMontage() override;
 	virtual void AttackEnd() override;
 	virtual bool CanAttack() override;
 	
