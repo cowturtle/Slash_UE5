@@ -25,13 +25,36 @@ public:
 
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	inline void SetOverlappingItem(AItem* Item) { OverlappingItem = Item; }
-	inline ECharacterState GetCharacterState() { return CharacterState; }
-
-protected:
+private:
 	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
 
+	/** Callbacks for input	*/
+	void Move(const FInputActionValue& Value);
+	void Look(const FInputActionValue& Value);
+	void PickUp();
+	virtual void Attack() override;
+
+	/** Combat */
+	void EquipWeapon(AWeapon* Weapon);
+	virtual void AttackEnd() override;
+	virtual bool CanAttack() override;
+	bool CanDisarm();
+	bool CanArm();
+	void Disarm();
+	void Arm();
+	void PlayEquipMontage(const FName& SectionName);
+
+	UFUNCTION(BlueprintCallable)
+	void AttachWeaponToBack();
+
+	UFUNCTION(BlueprintCallable)
+	void AttachWeaponToHand();
+
+	UFUNCTION(BlueprintCallable)
+	void FinishEquipping();
+
+
+	/** Character components */
 
 	ECharacterState CharacterState = ECharacterState::ECS_Unequipped;
 
@@ -65,32 +88,10 @@ protected:
 	UPROPERTY(VisibleInstanceOnly)
 	AItem* OverlappingItem;
 
-	/* Callbacks for Inputs */
-
-	void Move(const FInputActionValue& Value);
-	void Look(const FInputActionValue& Value);
-	virtual void Attack() override;
-	void PickUp();
-
-	UFUNCTION(BlueprintCallable)
-	void Disarm();
-
-	UFUNCTION(BlueprintCallable)
-	void Arm();
-
-	UFUNCTION(BlueprintCallable)
-	void FinishedEquipping();
-
-	/* Play Montage Functions */
-	void PlayEquipMontage(FName SectionName);
-	virtual void AttackEnd() override;
-	virtual bool CanAttack() override;
-	
-	bool CanArm();
-	bool CanDisarm();
-
-private:
-	
 	UPROPERTY(EditDefaultsOnly, Category = Montages)
 	UAnimMontage* EquipMontage;
+
+public:
+	FORCEINLINE void SetOverlappingItem(AItem* Item) { OverlappingItem = Item; }
+	FORCEINLINE ECharacterState GetCharacterState() const { return CharacterState; }
 };
