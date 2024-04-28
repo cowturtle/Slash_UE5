@@ -52,8 +52,7 @@ void ASlashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 
 void ASlashCharacter::GetHit_Implementation(const FVector& ImpactPoint)
 {
-	PlayHitSound(ImpactPoint);
-	SpawnHitParticles(ImpactPoint);
+	Super::GetHit_Implementation(ImpactPoint);
 }
 
 void ASlashCharacter::BeginPlay()
@@ -125,7 +124,7 @@ void ASlashCharacter::Attack()
 
 void ASlashCharacter::EquipWeapon(AWeapon* Weapon)
 {
-	Weapon->Equip(GetMesh(), FName("RightHandSocket"), this, this);
+	Weapon->Equip(GetMesh(), FName("LeftHandSocket"), this, this);
 	CharacterState = ECharacterState::ECS_EquippedOneHandedWeapon;
 	OverlappingItem = nullptr;
 	EquippedWeapon = Weapon;

@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -18,23 +16,18 @@ UCLASS()
 class SLASH_API AItem : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	AItem();
 	virtual void Tick(float DeltaTime) override;
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Sine Parameters")
-	float Amplitude = 1.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sine Parameters")
+	float Amplitude = 0.25f;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Sine Parameters")
-	float TimeConstant = 7.5f;
-
-	UPROPERTY(VisibleAnywhere)
-	UStaticMeshComponent* ItemMesh;
-
-	EItemState ItemState = EItemState::EIS_Hovering;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sine Parameters")
+	float TimeConstant = 5.f;
 
 	UFUNCTION(BlueprintPure)
 	float TransformedSin();
@@ -50,6 +43,11 @@ protected:
 
 	UFUNCTION()
 	virtual void OnSphereEndOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UStaticMeshComponent* ItemMesh;
+
+	EItemState ItemState = EItemState::EIS_Hovering;
 
 	UPROPERTY(VisibleAnywhere)
 	USphereComponent* Sphere;
