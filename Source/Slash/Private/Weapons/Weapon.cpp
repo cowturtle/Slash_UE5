@@ -100,9 +100,9 @@ bool AWeapon::ActorIsSameType(AActor* OtherActor)
 void AWeapon::ExecuteGetHit(FHitResult& BoxHit)
 {
 	IHitInterface* HitInterface = Cast<IHitInterface>(BoxHit.GetActor());
-	if (HitInterface)
+	if (HitInterface && BoxHit.GetActor() != GetOwner())
 	{
-		HitInterface->Execute_GetHit(BoxHit.GetActor(), BoxHit.ImpactPoint);
+		HitInterface->Execute_GetHit(BoxHit.GetActor(), BoxHit.ImpactPoint, GetOwner());
 	}
 }
 
