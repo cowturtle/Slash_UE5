@@ -45,6 +45,10 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly)
 	EEnemyState EnemyState = EEnemyState::EES_Patrolling;
+
+	UPROPERTY(BlueprintReadOnly, category = Combat)
+	AActor* CombatTarget;
+
 private:
 
 	/** AI Behavior */
@@ -72,7 +76,6 @@ private:
 	AActor* ChoosePatrolTarget();
 	void SpawnDefaultWeapon();
 
-
 	UFUNCTION()
 	void PawnSeen(APawn* SeenPawn); // Callback for OnPawnSeen in UPawnSensingComponent
 
@@ -85,8 +88,6 @@ private:
 	UPROPERTY(EditAnywhere)
 	TSubclassOf<class AWeapon> WeaponClass;
 
-	UPROPERTY()
-	AActor* CombatTarget;
 
 	UPROPERTY(EditAnywhere)
 	double CombatRadius = 500.f;
