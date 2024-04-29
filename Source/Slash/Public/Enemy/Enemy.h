@@ -46,9 +46,6 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	EEnemyState EnemyState = EEnemyState::EES_Patrolling;
 
-	UPROPERTY(BlueprintReadOnly, category = Combat)
-	AActor* CombatTarget;
-
 private:
 
 	/** AI Behavior */
