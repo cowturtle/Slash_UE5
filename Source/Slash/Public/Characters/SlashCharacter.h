@@ -54,6 +54,8 @@ private:
 	UFUNCTION(BlueprintCallable)
 	void FinishEquipping();
 
+	UFUNCTION(BlueprintCallable)
+	void HitReactEnd();
 
 	/** Character components */
 
