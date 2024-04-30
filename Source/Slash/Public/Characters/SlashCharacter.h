@@ -13,6 +13,7 @@ class USpringArmComponent;
 class UCameraComponent;
 class AItem;
 class UAnimMontage;
+class USlashOverlay;
 
 
 UCLASS()
@@ -58,12 +59,17 @@ private:
 	UFUNCTION(BlueprintCallable)
 	void HitReactEnd();
 
+	void InitializeSlashOverlay();
+
 	/** Character components */
 
 	ECharacterState CharacterState = ECharacterState::ECS_Unequipped;
 
 	UPROPERTY(BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	EActionState ActionState = EActionState::EAS_Unoccupied;
+
+	UPROPERTY()
+	USlashOverlay* SlashOverlay;
 
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputMappingContext* SlashMappingContext;
