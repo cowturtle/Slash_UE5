@@ -43,10 +43,13 @@ private:
 	void Look(const FInputActionValue& Value);
 	void PickUp();
 	virtual void Attack() override;
+	void DodgeLeft();
+	void DodgeRight();
 
 	/** Combat */
 	void EquipWeapon(AWeapon* Weapon);
 	virtual void AttackEnd() override;
+	virtual void DodgeEnd() override;
 	virtual bool CanAttack() override;
 	bool CanDisarm();
 	bool CanArm();
@@ -99,6 +102,12 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = Input)
 	UInputAction* PickUpAction;
+
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* DodgeLeftAction;
+
+	UPROPERTY(EditAnywhere, Category = Input)
+	UInputAction* DodgeRightAction;
 
 	UPROPERTY(VisibleAnywhere)
 	USpringArmComponent* CameraBoom;

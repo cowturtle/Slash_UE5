@@ -52,6 +52,8 @@ void ASlashCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &ASlashCharacter::Jump);
 		EnhancedInputComponent->BindAction(PickUpAction, ETriggerEvent::Triggered, this, &ASlashCharacter::PickUp);
 		EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &ASlashCharacter::Attack);
+		EnhancedInputComponent->BindAction(DodgeLeftAction, ETriggerEvent::Triggered, this, &ASlashCharacter::DodgeLeft);
+		EnhancedInputComponent->BindAction(DodgeRightAction, ETriggerEvent::Triggered, this, &ASlashCharacter::DodgeRight);
 	}
 }
 
@@ -174,6 +176,20 @@ void ASlashCharacter::Attack()
 	}
 }
 
+void ASlashCharacter::DodgeLeft()
+{
+	if (ActionState != EActionState::EAS_Unoccupied) return;
+	PlayDodgeMontage(FName("DodgeLeft"));
+	ActionState = EActionState::EAS_Dodge;
+}
+
+void ASlashCharacter::DodgeRight()
+{
+	if (ActionState != EActionState::EAS_Unoccupied) return;
+	PlayDodgeMontage(FName("DodgeRight"));
+	ActionState = EActionState::EAS_Dodge;
+}
+
 void ASlashCharacter::EquipWeapon(AWeapon* Weapon)
 {
 	Weapon->Equip(GetMesh(), FName("LeftHandSocket"), this, this);
@@ -184,6 +200,13 @@ void ASlashCharacter::EquipWeapon(AWeapon* Weapon)
 
 void ASlashCharacter::AttackEnd()
 {
+	ActionState = EActionState::EAS_Unoccupied;
+}
+
+void ASlashCharacter::DodgeEnd()
+{
+	Super::DodgeEnd();
+
 	ActionState = EActionState::EAS_Unoccupied;
 }
 
