@@ -79,15 +79,18 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	UPawnSensingComponent* PawnSensing;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, category = Combat)
 	TSubclassOf<class AWeapon> WeaponClass;
 
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, category = Combat)
 	double CombatRadius = 500.f;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, category = Combat)
 	double AttackRadius = 150.f;
+
+	UPROPERTY(EditAnywhere, category = Combat)
+	double AcceptanceRadius = 50.f;
 
 	UPROPERTY()
 	class AAIController* EnemyController;
